@@ -106,3 +106,4 @@ CREATE INDEX IF NOT EXISTS iviaje4
     ON public.viaje(viajecliente);
 
 END;
+--josue
