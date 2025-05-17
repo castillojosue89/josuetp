@@ -1,0 +1,78 @@
+
+CREATE TABLE TipoMovil (
+  TipoMovilId   SMALLINT    NOT NULL,
+  TipoMovilDesc VARCHAR(100)    NOT NULL,
+     PRIMARY KEY ( TipoMovilId ))
+	 
+____________________________________________________________________________________________________
+CREATE TABLE TipoPersona (
+  TipoPersonaId   BIGINT    NOT NULL,
+  TipoPersonaDesc VARCHAR(100)    NOT NULL,
+     PRIMARY KEY ( TipoPersonaId ))
+	 
+____________________________________________________________________________________________________
+
+CREATE TABLE FormaPago (
+  FormaPagoId   SMALLINT    NOT NULL,
+  FormaPagoDesc VARCHAR(100)    NOT NULL,
+     PRIMARY KEY ( FormaPagoId ))
+	 
+____________________________________________________________________________________________________
+
+CREATE TABLE Persona (
+  PersonaDoc      VARCHAR(20)    NOT NULL,
+  PersonaNombre   VARCHAR(100)    NOT NULL,
+  PersonaApellido VARCHAR(100)    NOT NULL,
+  PersonaFecNac   DATE    NOT NULL,
+  TipoPersonaId   BIGINT    NOT NULL,
+     PRIMARY KEY ( PersonaDoc ))
+CREATE INDEX IPERSONA1 ON Persona (
+      TipoPersonaId)
+ALTER TABLE Persona
+ ADD CONSTRAINT IPERSONA1 FOREIGN KEY ( TipoPersonaId ) REFERENCES TipoPersona(TipoPersonaId)
+ 
+____________________________________________________________________________________________________
+CREATE TABLE Movil (
+  MovilChasis VARCHAR(100)    NOT NULL,
+  MovilChapa  VARCHAR(100)    NOT NULL,
+  TipoMovilId SMALLINT    NOT NULL,
+     PRIMARY KEY ( MovilChasis ))
+CREATE INDEX IMOVIL1 ON Movil (
+      TipoMovilId)
+ALTER TABLE Movil
+ ADD CONSTRAINT IMOVIL1 FOREIGN KEY ( TipoMovilId ) REFERENCES TipoMovil(TipoMovilId)
+ 
+____________________________________________________________________________________________________
+
+
+CREATE TABLE Viaje (
+  ViajeId        BIGINT    NOT NULL,
+  ViajeConductor VARCHAR(20)    NOT NULL,
+  ViajeCliente   VARCHAR(20)    NOT NULL,
+  FormaPagoId    SMALLINT    NOT NULL,
+  MovilChasis    VARCHAR(100)    NOT NULL,
+  
+     PRIMARY KEY ( ViajeId ))
+	 
+CREATE INDEX IVIAJE1 ON Viaje (
+      FormaPagoId)
+CREATE INDEX IVIAJE2 ON Viaje (
+      MovilChasis)
+CREATE INDEX IVIAJE3 ON Viaje (
+      ViajeConductor)
+CREATE INDEX IVIAJE4 ON Viaje (
+      ViajeCliente)
+	  
+ALTER TABLE Viaje
+
+ ADD CONSTRAINT IVIAJE1 FOREIGN KEY ( FormaPagoId ) REFERENCES FormaPago(FormaPagoId)
+ALTER TABLE Viaje
+ ADD CONSTRAINT IVIAJE2 FOREIGN KEY ( MovilChasis ) REFERENCES Movil(MovilChasis)
+ALTER TABLE Viaje
+ ADD CONSTRAINT IVIAJE4 FOREIGN KEY ( ViajeCliente ) REFERENCES Persona(PersonaDoc)
+ALTER TABLE Viaje
+ ADD CONSTRAINT IVIAJE3 FOREIGN KEY ( ViajeConductor ) REFERENCES Persona(PersonaDoc)
+ 
+____________________________________________________________________________________________________
+
+
